@@ -9,14 +9,14 @@ datasource db {
 }
 
 model Attorney {
-  id                  Int                  @id @default(autoincrement())
-  fullName            String               @db.VarChar(255)
+  id                  Int                   @id @default(autoincrement())
+  fullName            String                @db.VarChar(255)
   barNumber           String?
-  jurisdiction        String               @default("Puerto Rico")
-  status              String               @default("Good Standing")
+  jurisdiction        String                @default("Puerto Rico")
+  status              String                @default("Good Standing")
   statusEffectiveDate DateTime?
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
   actions             DisciplinaryAction[]
 
   @@index([fullName])
@@ -24,11 +24,15 @@ model Attorney {
 }
 
 model DisciplinaryAction {
-  id         Int       @id @default(autoincrement())
-  attorneyId Int
-  action     String
-  date       DateTime  @default(now())
-  notes      String?
+  id          Int       @id @default(autoincrement())
+  attorneyId  Int
+  date        DateTime
+  type        String
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  attorney   Attorney  @relation(fields: [attorneyId], references: [id])
+  attorney Attorney @relation(fields: [attorneyId], references: [id])
+
+  @@index([type])
 }
