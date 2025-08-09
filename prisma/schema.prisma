@@ -1,31 +1,34 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql"; url = env("DATABASE_URL"); directUrl = env("DIRECT_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
 
 model Attorney {
-  id        Int      @id @default(autoincrement())
-  fullName  String   @db.VarChar(255)
-  barNumber String?
-  jurisdiction String @default("Puerto Rico")
-  status    String   @default("Good Standing")
+  id                  Int                  @id @default(autoincrement())
+  fullName            String               @db.VarChar(255)
+  barNumber           String?
+  jurisdiction        String               @default("Puerto Rico")
+  status              String               @default("Good Standing")
   statusEffectiveDate DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  actions   DisciplinaryAction[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  actions             DisciplinaryAction[]
+
   @@index([fullName])
   @@index([status])
 }
 
 model DisciplinaryAction {
-  id        Int      @id @default(autoincrement())
-  attorney  Attorney @relation(fields: [attorneyId], references: [id])
+  id         Int       @id @default(autoincrement())
   attorneyId Int
-  actionType String
-  decisionDate DateTime?
-  citation   String?
-  summary    String?
-  sourceUrl  String?
-  pdfUrl     String?
-  createdAt  DateTime @default(now())
-  @@index([attorneyId])
-  @@index([decisionDate])
+  action     String
+  date       DateTime  @default(now())
+  notes      String?
+
+  attorney   Attorney  @relation(fields: [attorneyId], references: [id])
 }
