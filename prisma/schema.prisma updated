@@ -3,20 +3,20 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
 }
 
 model Attorney {
-  id                  Int                   @id @default(autoincrement())
-  fullName            String                @db.VarChar(255)
+  id                  Int                  @id @default(autoincrement())
+  fullName            String               @db.VarChar(255)
   barNumber           String?
-  jurisdiction        String                @default("Puerto Rico")
-  status              String                @default("Good Standing")
+  jurisdiction        String               @default("Puerto Rico")
+  status              String               @default("Good Standing")
   statusEffectiveDate DateTime?
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
   actions             DisciplinaryAction[]
 
   @@index([fullName])
@@ -26,13 +26,10 @@ model Attorney {
 model DisciplinaryAction {
   id          Int       @id @default(autoincrement())
   attorneyId  Int
-  date        DateTime
   type        String
-  description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  attorney Attorney @relation(fields: [attorneyId], references: [id])
-
+  description String?
+  date        DateTime?
+  attorney    Attorney  @relation(fields: [attorneyId], references: [id])
+  
   @@index([type])
 }
