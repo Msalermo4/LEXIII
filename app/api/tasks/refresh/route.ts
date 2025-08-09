@@ -55,11 +55,11 @@ export async function GET(req: NextRequest) {
       // remove leading "In re:"
       const name = partes.replace(/^in\s*re\s*:?\s*/i, '').trim()
 
-      // naive date parse fallback
-      let decisionDate: Date | null = null
+      // parse date if possible
+      let actionDate: Date | null = null
       if (fechaTxt) {
         const tryDate = new Date(fechaTxt)
-        decisionDate = isNaN(tryDate.getTime()) ? null : tryDate
+        actionDate = isNaN(tryDate.getTime()) ? null : tryDate
       }
 
       const a = await prisma.attorney.upsert({
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
         data: {
           attorneyId: a.id,
           actionType: 'Conducta Profesional',
-          decisionDate,
+          actionDate,
           citation,
           summary: materia || null,
           sourceUrl: YEAR_URL(y),
@@ -85,8 +85,4 @@ export async function GET(req: NextRequest) {
   }
 
   return Response.json({ inserted: count })
-}
-
-
-  return Response.json({ inserted: count });
 }
