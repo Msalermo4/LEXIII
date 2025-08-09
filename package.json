@@ -1,0 +1,27 @@
+{
+  "name": "lexiii",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "prisma": "prisma",
+    "harvest:pr": "node scripts/harvest_pr.js"
+  },
+  "dependencies": {
+    "@prisma/client": "5.17.0",
+    "next": "14.2.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "papaparse": "5.4.1"
+  },
+  "devDependencies": {
+    "prisma": "5.17.0",
+    "typescript": "5.5.4",
+    "@types/node": "20.14.11",
+    "@types/react": "18.2.66",
+    "@types/react-dom": "18.2.23",
+    "eslint": "8.57.0"
+  }
+}
